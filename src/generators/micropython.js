@@ -92,11 +92,16 @@ mpyGen.forBlock['lights_set_light'] = function(block, generator) {
 }
 
 mpyGen.forBlock['lights_set_light_colour'] = function(block, generator) {
-	const col = block.getFieldValue('COLOUR');
-	console.log(col);
+	const col = generator.valueToCode(block, 'COLOUR', Order.ATOMIC);
 	const pixel = generator.valueToCode(block, 'NUM', Order.ATOMIC);
 
-	return `npxl[${pixel}] = ${hexToRGB(col)}\nnpxl.write()\n`;
+	return `npxl[${pixel}] = ${col}\nnpxl.write()\n`;
+}
+
+mpyGen.forBlock['lights_variable_colour'] = function(block, generator) {
+	const col = block.getFieldValue('COLOUR');
+
+	return [`${hexToRGB(col)}`, Order.ATOMIC];
 }
 
 mpyGen.forBlock['sensors_startmeasureth'] = function(block, generator) {

@@ -52,15 +52,18 @@ const setLight = {
 };
 const setLightCol = {
 	type: 'lights_set_light_colour',
-	message0: 'turn light %1 to on with colour %2',
+	message0: 'turn light %1 on',
 	args0: [
 		{
 			type: 'input_value',
 			name: 'NUM',
 			check: 'Number',
 		},
+	],
+	message1: 'with colour %1',
+	args1: [
 		{
-			type: 'field_colour',
+			type: 'input_value',
 			name: 'COLOUR',
 		},
 	],
@@ -70,12 +73,26 @@ const setLightCol = {
 	tooltip: '',
 	helpUrl: '',
 };
+const colour = {
+	type: 'lights_variable_colour',
+	message0: 'colour %1',
+	args0: [
+		{
+			type: 'field_colour',
+			name: 'COLOUR',
+		}
+	],
+	colour: 90,
+	tooltip: '',
+	helpUrl: '',
+	output: 'Colour',
+}
 
 // Create the block definitions for the JSON-only blocks.
 // This does not register their definitions with Blockly.
 // This file has no side effects!
 export const blocks = Blockly.common.createBlockDefinitionsFromJsonArray([
-	lightsOnBoard, setLight, setLightCol
+	lightsOnBoard, setLight, setLightCol, colour
 ]);
 
 Blockly.Extensions.register('default_bool', function() {

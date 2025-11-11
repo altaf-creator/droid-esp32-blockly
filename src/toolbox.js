@@ -60,7 +60,19 @@ export const toolbox = {
 								},
 							},
 						},
+						COLOUR: {
+							shadow: {
+								type: 'lights_variable_colour',
+								fields: {
+									COLOUR: '#ff0000',
+								},
+							},
+						},
 					},
+				},
+				{
+					kind: 'block',
+					type: 'lights_variable_colour',
 				},
 			],
 		},

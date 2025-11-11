@@ -49,6 +49,7 @@ const forever = {
 	type: 'controls_forever',
 	message0: 'repeat forever',
 	previousStatement: null,
+	nextStatement: null,
 	style: 'loop_blocks',
 	message1: '%{BKY_CONTROLS_REPEAT_INPUT_DO} %1',
 	args1: [
