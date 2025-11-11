@@ -1,6 +1,6 @@
 # R32D32 blockly
 
-it's a(n) instance/fork/thing of [google's (now RaspberryPiFoundation's) blockly](https://github.com/RaspberriPiFoundation/blockly) specialised for Tinkertanker's ESP32 Droid kit.
+it's a(n) instance/fork/thing of [google's (now RaspberryPiFoundation's) blockly](https://github.com/RaspberryPiFoundation/blockly) specialised for Tinkertanker's ESP32 Droid kit.
 
 ## Serving
 (copied from Google/RaspberryPiFoundation's default sample README.md)
