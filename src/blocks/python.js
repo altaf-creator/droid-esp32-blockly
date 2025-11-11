@@ -5,6 +5,7 @@
  */
 
 import * as Blockly from 'blockly/core';
+import { loops } from 'blockly/blocks';
 
 // Create a custom block called 'add_text' that adds
 // text to the output div on the sample app.
@@ -59,7 +60,17 @@ const forever = {
 	tooltip: '',
 	helpUrl: '',
 }
+loops.loopTypes.add('controls_forever');
+const mainStart = {
+	type: 'controls_main',
+	message0: 'start of main program',
+	nextStatement: null,
+	style: 'loop_blocks',
+	tooltip: '',
+	helpUrl: '',
+
+}
 
 export const blocks = Blockly.common.createBlockDefinitionsFromJsonArray([
-	sleep, print, forever
+	sleep, print, forever, mainStart
 ]);

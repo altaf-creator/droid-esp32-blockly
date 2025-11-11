@@ -73,6 +73,10 @@ mpyGen.forBlock['controls_forever'] = function(block, generator) {
 	return 'while True:\n' + branch;
 }
 
+mpyGen.forBlock['controls_main'] = function(block, generator) {
+	return ``;
+}
+
 mpyGen.forBlock['lights_board_light'] = function(block, generator) {
 	const state = generator.valueToCode(block, 'STATE', Order.ATOMIC);
 	if (state == "True") { return `builtInLEDPin.on()\n` }

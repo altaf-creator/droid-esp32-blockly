@@ -229,9 +229,13 @@ export const toolbox = {
 		},
 		{
 			kind: 'category',
-			name: 'Loops',
+			name: 'Controls',
 			categorystyle: 'loop_category',
 			contents: [
+				{
+					kind: 'block',
+					type: 'controls_main',
+				},
 				{
 					kind: 'block',
 					type: 'controls_repeat_ext',

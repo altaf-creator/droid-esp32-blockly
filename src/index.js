@@ -38,6 +38,11 @@ const ws = Blockly.inject(blocklyDiv, {
 
 let currentCode = "";
 
+const defaultBlock = ws.newBlock('controls_main');
+defaultBlock.initSvg();
+defaultBlock.render();
+defaultBlock.moveBy(20, 20); // optional, adjust position
+
 runCodeBtn.addEventListener('click', function () {
 	sendToESP32(currentCode);
 });
@@ -88,6 +93,8 @@ ws.addChangeListener((e) => {
 		return;
 	}
 	runCode();
+
+	Blockly.Events.disableOrphans(e);
 });
 
 //async function sendToESP32(code) {
