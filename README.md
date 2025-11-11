@@ -2,6 +2,8 @@
 
 it's a(n) instance/fork/thing of [google's (now RaspberryPiFoundation's) blockly](https://github.com/RaspberryPiFoundation/blockly) specialised for Tinkertanker's ESP32 Droid kit.
 
+hosted @ [https://altaf-creator.github.io/droid-esp32-blockly/](https://altaf-creator.github.io/droid-esp32-blockly/)
+
 ## Serving
 (copied from Google/RaspberryPiFoundation's default sample README.md)
 
