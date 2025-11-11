@@ -1,9 +1,9 @@
 # R32D32 blockly
 
-it's a(n) instance/fork/thing of [google's (now RaspberriPiFoundation's)](https://github.com/RaspberriPiFoundation/blockly) blockly specialised for Tinkertanker's ESP32 Droid kit.
+it's a(n) instance/fork/thing of [google's (now RaspberryPiFoundation's) blockly](https://github.com/RaspberriPiFoundation/blockly) specialised for Tinkertanker's ESP32 Droid kit.
 
 ## Serving
-(copied from Google/RaspberriPiFoundation's default sample README.md)
+(copied from Google/RaspberryPiFoundation's default sample README.md)
 
 To run your app locally, run `npm run start` to run the development server. This mode generates source maps and ingests the source maps created by Blockly, so that you can debug using unminified code.
 
