@@ -30,6 +30,8 @@ const codeDiv = document.getElementById('generatedCode').firstChild;
 const outputDiv = document.getElementById('output');
 const blocklyDiv = document.getElementById('blocklyDiv');
 const runCodeBtn = document.getElementById('runCode');
+const alertDiv = document.getElementById('alert');
+alertDiv.style.transform = "translateY(-100px)";
 const ws = Blockly.inject(blocklyDiv, {
 	toolbox,
 	theme: 'zelos',
@@ -149,7 +151,7 @@ async function readWithTimeout(reader, timeoutMs) {
 	]);
 }
 
-async function sendToESP32(code) {
+async function sendToESP32(code) { // for some reason it 
 	// Ask for the serial port
 	const port = await navigator.serial.requestPort();
 	runCodeBtn.innerHTML = "Flashing..."
@@ -178,13 +180,22 @@ async function sendToESP32(code) {
 	await writer.write(encoder.encode(writeCodeCode));
 	await new Promise(res => setTimeout(res, 100));
 
-	// Execute buffer (Ctrl-D)
-	await writer.write(encoder.encode('\x04'));
-	console.log("code sent, reading ESP32 output for 3 sec...");
 
+	// Execute buffer (Ctrl-D)
+	//await writer.write(encoder.encode('\x04'));
+	console.log("code written not sent yet");
+
+	console.log("adding soft reset code via REPL");
+
+	//await writer.write(encoder.encode('\r\x03\x03')); // Ctrl-C twice to end the prog
+	//await new Promise(res => setTimeout(res, 100)); // short delay
+	await writer.write(encoder.encode('\r\nimport machine\r\nmachine.reset()\r\n'));
+	await writer.write(encoder.encode('\x04')); // execute
+
+	console.log("wrote + restarted; reading output for 2 seconds");
 	const startTime = Date.now();
-	const overallTimeout = 3000; // total max wait for reading
-	const readTimeout = 50;	  // per-read timeout
+	const overallTimeout = 2000; // total max wait for reading
+	const readTimeout = 50;		// per-read timeout
 	
 	while (Date.now() - startTime < overallTimeout) {
 		const { value, done } = await readWithTimeout(reader, readTimeout);
@@ -203,8 +214,46 @@ async function sendToESP32(code) {
 	await port.close();
 	console.log("conn closed.")
 	
-	runCodeBtn.innerHTML = "Flash to ESP32"
-	document.getElementById("successAlert").style.display = "inherit";
-	await new Promise(res => setTimeout(res, 4000));
-	document.getElementById("successAlert").style.display = "none";
+	runCodeBtn.innerHTML = "Flash to My R32-D32"
+	createAlert("Successfully flashed to your R32-D32 droid!")
+}
+
+document.getElementById("saveProj").addEventListener("click", function () {
+	const state = Blockly.serialization.workspaces.save(ws);
+	console.log(state);
+
+	const jsonStr = JSON.stringify(state, null, 2); // pretty print
+	const blob = new Blob([jsonStr], { type: "application/json" });
+	const url = URL.createObjectURL(blob);
+
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = "R32-D32_project.json";
+	a.click();
+});
+
+document.getElementById("loadProj").addEventListener("click", () => document.getElementById("fileInput").click());
+
+document.getElementById("fileInput").addEventListener("change", async (e) => {
+	const file = e.target.files[0];
+	if (!file) return;
+
+	const text = await file.text();
+	try {
+		const state = JSON.parse(text);
+		Blockly.serialization.workspaces.load(state, ws);	
+		createAlert("Successfully opened your project!")
+	} catch (err) {
+		console.error("Invalid JSON:", err);
+		alert("The file is not valid JSON.");
+	}
+
+	fileInput.value = "";
+});
+
+async function createAlert(text, duration_seconds = 5) {
+	alertDiv.style.transform = "translateY(0px)";
+	alertDiv.innerText = text;
+	await new Promise(res => setTimeout(res, duration_seconds * 1000));
+	alertDiv.style.transform = "translateY(-100px)";
 }

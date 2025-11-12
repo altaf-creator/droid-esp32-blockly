@@ -164,6 +164,18 @@ export const toolbox = {
 					kind: 'block',
 					type: 'sensors_humidity',
 				},
+				{
+					kind: 'block',
+					type: 'sensors_light',
+				},
+				{
+					kind: 'block',
+					type: 'sensors_buttonA',
+				},
+				{
+					kind: 'block',
+					type: 'sensors_buttonB',
+				},
 			],
 		},
 		{

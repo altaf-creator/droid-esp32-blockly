@@ -60,7 +60,7 @@ const headRotate = {
 };
 const turnRight = {
 	type: 'movement_front_turnright',
-	message0: 'turn right',
+	message0: 'turn front wheel right',
 	previousStatement: null,
 	nextStatement: null,
 	colour: 4,
@@ -69,7 +69,7 @@ const turnRight = {
 };
 const turnLeft = {
 	type: 'movement_front_turnleft',
-	message0: 'turn left',
+	message0: 'turn front wheel left',
 	previousStatement: null,
 	nextStatement: null,
 	colour: 4,
@@ -78,7 +78,7 @@ const turnLeft = {
 };
 const turn = {
 	type: 'movement_front_rotate',
-	message0: 'turn %1 degrees',
+	message0: 'turn front wheel %1 degrees',
 	args0: [
 		{
 			type: 'input_value',

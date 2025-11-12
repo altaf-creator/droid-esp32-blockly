@@ -1,12 +1,22 @@
 import { pythonGenerator, Order } from 'blockly/python';
 import * as Blockly from 'blockly/core';
+import * as HardwareConstants from '../r32d32_constants.js'
 
 export const mpyGen = new Blockly.Generator("MicroPython");
 
+pythonGenerator.addReservedWords('npxl')
+pythonGenerator.addReservedWords('dhtPin')
+pythonGenerator.addReservedWords('builtInLEDPin')
+pythonGenerator.addReservedWords('btnA')
+pythonGenerator.addReservedWords('btnB')
+pythonGenerator.addReservedWords('lightSensorPin')
+pythonGenerator.addReservedWords('servoHeadPin')
+pythonGenerator.addReservedWords('servoFrontPin')
 Object.assign(mpyGen, pythonGenerator);
 
 mpyGen.init = function(workspace) {
 	pythonGenerator.init.call(this, workspace);
+
 
 	this.definitions_ = Object.create(null);
 	this.imports_ = new Set([
@@ -17,9 +27,16 @@ mpyGen.init = function(workspace) {
 		'import dht', 
 		'import neopixel', 
 		'', 
-		'npxl = neopixel.NeoPixel(machine.Pin(14, machine.Pin.OUT), 25)',
-		'dhtPin = dht.DHT11(machine.Pin(4, machine.Pin.IN))',
-		'builtInLEDPin = machine.Pin(2, machine.Pin.OUT)'
+		`npxl = neopixel.NeoPixel(machine.Pin(${HardwareConstants.PINOUT_LIGHTS}, machine.Pin.OUT), 25)`,
+		`dhtPin = dht.DHT11(machine.Pin(${HardwareConstants.PININ_DHT}, machine.Pin.IN))`,
+		`builtInLEDPin = machine.Pin(${HardwareConstants.PINOUT_ON_BOARD_LED}, machine.Pin.OUT)`,
+		`btnA = machine.Pin(${HardwareConstants.PININ_BTN_A}, machine.Pin.IN)`,
+		`btnB = machine.Pin(${HardwareConstants.PININ_BTN_B}, machine.Pin.IN)`,
+		`lightSensorPin = machine.ADC(machine.Pin(${HardwareConstants.PININ_PHOTORESISTOR}))`,
+		`servoHeadPin = machine.PWM(machine.Pin(${HardwareConstants.PINOUT_HEAD_SERVO}))`,
+		//`servoFrontPin = machine.PWM(machine.Pin(${HardwareConstants.PINOUT_FRONT_SERVO}))`,
+		`servoHeadPin.freq(50)`,
+		//`servoFrontPin.freq(50)`,
 	]);
 }
 
@@ -116,6 +133,18 @@ mpyGen.forBlock['sensors_humidity'] = function(block, generator) {
 	return [`dhtPin.humidity()`, Order.ATOMIC];
 }
 
+mpyGen.forBlock['sensors_light'] = function(block, generator) {
+	return [`(4095 - lightSensorPin.read())`, Order.ATOMIC];
+}
+
+mpyGen.forBlock['sensors_buttonA'] = function(block, generator) {
+	return [`btnA.value() == 1`, Order.ATOMIC];
+}
+
+mpyGen.forBlock['sensors_buttonB'] = function(block, generator) {
+	return [`btnB.value() == 1`, Order.ATOMIC];
+}
+
 mpyGen.forBlock['movement_main_move'] = function(block, generator) {
 	return ``;
 }
@@ -125,7 +154,9 @@ mpyGen.forBlock['movement_main_backward'] = function(block, generator) {
 }
 
 mpyGen.forBlock['movement_head_rotate'] = function(block, generator) {
-	return ``;
+	const deg = generator.valueToCode(block, 'NUM', Order.ATOMIC);
+
+	return `servoHeadPin.duty(${calculateDuty(deg)})\ntime.sleep(.5)\n`;
 }
 
 mpyGen.forBlock['movement_front_turnright'] = function(block, generator) {
@@ -141,7 +172,9 @@ mpyGen.forBlock['movement_front_turnleft'] = function(block, generator) {
 }
 
 mpyGen.forBlock['movement_front_rotate'] = function(block, generator) {
-	return ``;
+	const deg = generator.valueToCode(block, 'NUM', Order.ATOMIC);
+
+	return `servoHeadPin.duty(${calculateDuty(deg)})\ntime.sleep(${HardwareConstants.HARDWARE_SERVO_BLOCKING_TIME})\n`;
 }
 
 function hexToRGB(hexstr) {
@@ -150,4 +183,10 @@ function hexToRGB(hexstr) {
 	const g = parseInt(hexstr.slice(2,4), 16);
 	const b = parseInt(hexstr.slice(4,6), 16);
 	return `(${g}, ${r}, ${b})`;
+}
+
+function calculateDuty(angle, minDuty = HardwareConstants.HARDWARE_SERVO_MINDUTY, maxDuty = HardwareConstants.HARDWARE_SERVO_MAXDUTY) {
+    if (angle < 0) angle = 0;
+    if (angle > 180) angle = 180;
+    return Math.round(minDuty + (angle / 180) * (maxDuty - minDuty));
 }

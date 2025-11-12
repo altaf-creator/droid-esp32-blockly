@@ -1,20 +1,27 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>R32D32 Code Editor</title>
-  </head>
-  <body>
-    <div id="pageContainer">
-      <div id="outputPane">
-        <pre id="generatedCode"><code></code></pre>
-        <div id="output"></div>
-	<button id="runCode">Flash to ESP32</button>
-      </div>
-      <div id="blocklyDiv"></div>
-      <div id="successAlert">
-	      Successfully flashed!
-      </div>
-    </div>
-  </body>
+	<head>
+		<meta charset="utf-8" />
+		<title>R32-D32 Code Editor</title>
+	</head>
+	<body>
+		<div id="pageContainer">
+			<div id="outputPane">
+				<span>Generated code (for Debugging)</span>
+				<pre id="generatedCode"><code></code></pre>
+				<div id="output"></div>
+				<div id="saveLoadDiv">
+					<button id="saveProj" class="button">Save</button>
+					<button id="loadProj" class="button">Load</button>
+					<input type="file" id="fileInput" accept="application/json" style="display:none">
+					<button id="exampleProj" class="button">Load Examples</button>
+				</div>
+				<button id="runCode" class="button">Flash to My R32-D32</button>
+			</div>
+			<div id="blocklyDiv"></div>
+			<div id="alert">
+				Welcome!
+			</div>
+		</div>
+	</body>
 </html>
