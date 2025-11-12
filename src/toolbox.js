@@ -92,7 +92,15 @@ export const toolbox = {
 									NUM: 10,
 								},
 							},
-						}
+						},
+						SPEED: {
+							shadow: {
+								type: 'math_range_100',
+								fields: {
+									NUM: 50,
+								},
+							},
+						},
 					},
 				},
 				{
@@ -106,8 +114,34 @@ export const toolbox = {
 									NUM: 10,
 								},
 							},
-						}
+						},
+						SPEED: {
+							shadow: {
+								type: 'math_range_100',
+								fields: {
+									NUM: 50,
+								},
+							},
+						},
 					},
+				},
+				{
+					kind: 'block',
+					type: 'movement_turnon_move',
+					inputs: {
+						SPEED: {
+							shadow: {
+								type: 'math_range_100',
+								fields: {
+									NUM: 50,
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'block',
+					type: 'movement_stop_move',
 				},
 				{
 					kind: 'block',
@@ -115,7 +149,7 @@ export const toolbox = {
 					inputs: {
 						NUM: {
 							shadow: {
-								type: 'math_number',
+								type: 'math_degree_180',
 								fields: {
 									NUM: 0,
 								},
@@ -133,17 +167,25 @@ export const toolbox = {
 				},
 				{
 					kind: 'block',
+					type: 'movement_front_turnfront',
+				},
+				{
+					kind: 'block',
 					type: 'movement_front_rotate',
 					inputs: {
 						NUM: {
 							shadow: {
-								type: 'math_number',
+								type: 'math_degree_180',
 								fields: {
 									NUM: 0,
 								},
 							},
 						},
 					},
+				},
+				{
+					kind: 'block',
+					type: 'math_degree_180',
 				},
 			],
 		},
@@ -175,6 +217,10 @@ export const toolbox = {
 				{
 					kind: 'block',
 					type: 'sensors_buttonB',
+				},
+				{
+					kind: 'block',
+					type: 'math_analog_input',
 				},
 			],
 		},
@@ -256,10 +302,6 @@ export const toolbox = {
 			name: 'Controls',
 			categorystyle: 'loop_category',
 			contents: [
-				{
-					kind: 'block',
-					type: 'controls_main',
-				},
 				{
 					kind: 'block',
 					type: 'controls_repeat_ext',
@@ -525,6 +567,22 @@ export const toolbox = {
 							},
 						},
 					},
+				},
+				{
+					kind: 'block',
+					type: 'math_degree',
+				},
+				{
+					kind: 'block',
+					type: 'math_degree_180',
+				},
+				{
+					kind: 'block',
+					type: 'math_analog_input',
+				},
+				{
+					kind: 'block',
+					type: 'math_range_100',
 				},
 			],
 		},

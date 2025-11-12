@@ -5,6 +5,7 @@
  */
 
 import * as Blockly from 'blockly/core';
+import '@blockly/field-slider';
 
 // Create a custom block called 'add_text' that adds
 // text to the output div on the sample app.
@@ -59,10 +60,28 @@ const btnB = {
 	helpUrl: '',
 	output: 'Boolean',
 };
+const input = {
+	type: 'math_analog_input',
+	message0: 'analog value %1',
+	tooltip: '',
+	helpUrl: '',
+	output: 'Number',
+	args0: [
+			{
+				type: 'field_slider',
+				name: 'NUM',
+				value: 2048,
+				min: 0,
+				max: 4096,
+				precision: 1,
+			},
+	],
+	style: 'math_blocks'
+}
 
 // Create the block definitions for the JSON-only blocks.
 // This does not register their definitions with Blockly.
 // This file has no side effects!
 export const blocks = Blockly.common.createBlockDefinitionsFromJsonArray([
-	startMeasureTH, temp, humd, light, btnA, btnB
+	startMeasureTH, temp, humd, light, btnA, btnB, input
 ]);

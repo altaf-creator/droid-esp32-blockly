@@ -24,7 +24,9 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "@blockly/field-angle": "^6.0.3",
     "@blockly/field-colour": "^6.0.6",
+    "@blockly/field-slider": "^8.0.3",
     "@jaames/iro": "^5.5.2",
     "blockly": "^12.3.1"
   }

@@ -23,8 +23,6 @@ Blockly.common.defineBlocks(MotorBlocks.blocks);
 Blockly.common.defineBlocks(SensorBlocks.blocks);
 Object.assign(mpyGen.forBlock, forBlock);
 
-// uh theme
-
 // Set up UI elements and inject Blockly
 const codeDiv = document.getElementById('generatedCode').firstChild;
 const outputDiv = document.getElementById('output');
@@ -74,12 +72,15 @@ const runCode = () => {
 load(ws);
 runCode();
 
+// --- event listners ---
+
 // Every time the workspace changes state, save the changes to storage.
 ws.addChangeListener((e) => {
 	// UI events are things like scrolling, zooming, etc.
 	// No need to save after one of these.
 	if (e.isUiEvent) return;
 	save(ws);
+	console.log(ws);
 });
 
 // Whenever the workspace changes meaningfully, run the code again.
@@ -99,50 +100,40 @@ ws.addChangeListener((e) => {
 	Blockly.Events.disableOrphans(e);
 });
 
-//async function sendToESP32(code) {
-//	// Ask for the serial port
-//	const port = await navigator.serial.requestPort();
-//	await port.open({ baudRate: 115200 });
-//
-//	const encoder = new TextEncoder();
-//	const decoder = new TextDecoder();
-//	const writer = port.writable.getWriter();
-//	const reader = port.readable.getReader();
-//	await new Promise(res => setTimeout(res, 500));
-//
-//	// Enter raw REPL mode
-//	await writer.write(encoder.encode('\r\x03\x03')); // interrupt any running code
-//	await writer.write(encoder.encode('\r\x01'));		 // enter raw REPL
-//	
-//	// Write to main.py
-//	const writeCodeCode = `with open('main.py', 'w') as f:\n	f.write("""${code}""")`;
-//	await writer.write(encoder.encode(writeCodeCode + '\r\n'))
-//
-//	// Send code
-//	await writer.write(encoder.encode('\x04')); // Ctrl-D to run
-//
-//	const timeout = 3000
-//		const startTime2 = Date.now();
-//		while (Date.now() - startTime2 < timeout) {
-//				const { value, done } = await reader.read();
-//				if (done) break;
-//				if (value) {
-//						console.log(decoder.decode(value));
-//				}
-//		}
-//
-//	// Exit raw REPL
-//	await writer.write(encoder.encode('\r\x02')); 
-//
-//	writer.releaseLock();
-//	reader.releaseLock();
-//	await port.close();
-//	console.log("written to ", port.toString());
-//}
+document.getElementById("saveProj").addEventListener("click", function () {
+	const state = Blockly.serialization.workspaces.save(ws);
+	console.log(state);
 
-// chatgpt generated code why does this work and mine doesn't???
-// am i getting replaced chat?
+	const jsonStr = JSON.stringify(state, null, 2); // pretty print
+	const blob = new Blob([jsonStr], { type: "application/json" });
+	const url = URL.createObjectURL(blob);
 
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = "R32-D32_project.json";
+	a.click();
+});
+
+document.getElementById("loadProj").addEventListener("click", () => document.getElementById("fileInput").click());
+
+document.getElementById("fileInput").addEventListener("change", async (e) => {
+	const file = e.target.files[0];
+	if (!file) return;
+
+	const text = await file.text();
+	try {
+		const state = JSON.parse(text);
+		Blockly.serialization.workspaces.load(state, ws);	
+		createAlert("Successfully opened your project!")
+	} catch (err) {
+		console.error("Invalid JSON:", err);
+		alert("The file is not valid JSON.");
+	}
+
+	fileInput.value = "";
+});
+
+// --- functions ---
 
 async function readWithTimeout(reader, timeoutMs) {
 	return Promise.race([
@@ -151,6 +142,10 @@ async function readWithTimeout(reader, timeoutMs) {
 	]);
 }
 
+// below is chatgpt generated code why does this work and mine doesn't???
+// am i getting replaced chat?
+// UPDATE: it's fine i modified it chatgpt is not that good.
+// 	   am i still cooked tho?
 async function sendToESP32(code) { // for some reason it 
 	// Ask for the serial port
 	const port = await navigator.serial.requestPort();
@@ -217,39 +212,6 @@ async function sendToESP32(code) { // for some reason it
 	runCodeBtn.innerHTML = "Flash to My R32-D32"
 	createAlert("Successfully flashed to your R32-D32 droid!")
 }
-
-document.getElementById("saveProj").addEventListener("click", function () {
-	const state = Blockly.serialization.workspaces.save(ws);
-	console.log(state);
-
-	const jsonStr = JSON.stringify(state, null, 2); // pretty print
-	const blob = new Blob([jsonStr], { type: "application/json" });
-	const url = URL.createObjectURL(blob);
-
-	const a = document.createElement("a");
-	a.href = url;
-	a.download = "R32-D32_project.json";
-	a.click();
-});
-
-document.getElementById("loadProj").addEventListener("click", () => document.getElementById("fileInput").click());
-
-document.getElementById("fileInput").addEventListener("change", async (e) => {
-	const file = e.target.files[0];
-	if (!file) return;
-
-	const text = await file.text();
-	try {
-		const state = JSON.parse(text);
-		Blockly.serialization.workspaces.load(state, ws);	
-		createAlert("Successfully opened your project!")
-	} catch (err) {
-		console.error("Invalid JSON:", err);
-		alert("The file is not valid JSON.");
-	}
-
-	fileInput.value = "";
-});
 
 async function createAlert(text, duration_seconds = 5) {
 	alertDiv.style.transform = "translateY(0px)";

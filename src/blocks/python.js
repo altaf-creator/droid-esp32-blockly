@@ -69,9 +69,70 @@ const mainStart = {
 	style: 'loop_blocks',
 	tooltip: '',
 	helpUrl: '',
-
+	extensions: ['main_program']
+}
+const degInput = {
+	type: 'math_degree',
+	message0: '%1',
+	output: 'Number_Deg',
+	tooltip: '',
+	helpUrl: '',
+	args0 : [
+		{
+			type: 'field_angle',
+			name: 'NUM',
+			clockwise: true,
+		}
+	],
+	style: 'math_blocks'
+}
+const degInput180 = {
+	type: 'math_degree_180',
+	message0: '%1',
+	output: 'Number_Deg180',
+	tooltip: '',
+	helpUrl: '',
+	args0 : [
+		{
+			type: 'field_angle',
+			name: 'NUM',
+			precision: 5,
+			clockwise: true,
+			value: 0,
+			min: 0,
+			max: 180,
+			displayMin: -180,
+			displayMax: 180,
+			minorTick: 15,
+			majorTick: 45, 
+		}
+	],
+	style: 'math_blocks'
+}
+const rangeInput100 = {
+	type: 'math_range_100',
+	message0: '%1 %',
+	tooltip: '',
+	helpUrl: '',
+	output: 'Number',
+	args0: [
+			{
+				type: 'field_slider',
+				name: 'NUM',
+				value: 50,
+				min: 0,
+				max: 100,
+				precision: 1,
+			},
+	],
+	style: 'math_blocks'
 }
 
 export const blocks = Blockly.common.createBlockDefinitionsFromJsonArray([
-	sleep, print, forever, mainStart
+	sleep, print, forever, mainStart, degInput, rangeInput100, degInput180
 ]);
+
+Blockly.Extensions.register('main_program', function () {
+	this.setEditable(false);
+	this.setDeletable(false);
+});

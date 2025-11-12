@@ -26,6 +26,7 @@ mpyGen.init = function(workspace) {
 		'import network', 
 		'import dht', 
 		'import neopixel', 
+		'import dcmotor', 
 		'', 
 		`npxl = neopixel.NeoPixel(machine.Pin(${HardwareConstants.PINOUT_LIGHTS}, machine.Pin.OUT), 25)`,
 		`dhtPin = dht.DHT11(machine.Pin(${HardwareConstants.PININ_DHT}, machine.Pin.IN))`,
@@ -34,9 +35,13 @@ mpyGen.init = function(workspace) {
 		`btnB = machine.Pin(${HardwareConstants.PININ_BTN_B}, machine.Pin.IN)`,
 		`lightSensorPin = machine.ADC(machine.Pin(${HardwareConstants.PININ_PHOTORESISTOR}))`,
 		`servoHeadPin = machine.PWM(machine.Pin(${HardwareConstants.PINOUT_HEAD_SERVO}))`,
-		//`servoFrontPin = machine.PWM(machine.Pin(${HardwareConstants.PINOUT_FRONT_SERVO}))`,
+		`servoFrontPin = machine.PWM(machine.Pin(${HardwareConstants.PINOUT_FRONT_SERVO}))`,
 		`servoHeadPin.freq(50)`,
-		//`servoFrontPin.freq(50)`,
+		`servoFrontPin.freq(50)`,
+		`dcMotor = dcmotor.DCMotor(\
+machine.Pin(${HardwareConstants.PINOUT_DCMOTOR_PIN1}, machine.Pin.OUT), \
+machine.Pin(${HardwareConstants.PINOUT_DCMOTOR_PIN2}, machine.Pin.OUT), \
+machine.PWM(machine.Pin(${HardwareConstants.PINOUT_DCMOTOR_ENABLE})))`
 	]);
 }
 
@@ -145,36 +150,74 @@ mpyGen.forBlock['sensors_buttonB'] = function(block, generator) {
 	return [`btnB.value() == 1`, Order.ATOMIC];
 }
 
+mpyGen.forBlock['math_range_100'] = function(block, generator) {
+	const val = block.getFieldValue('NUM');
+	return [`(${val}/100)`, Order.ATOMIC];
+}
+
+mpyGen.forBlock['math_analog_input'] = function(block, generator) {
+	const val = block.getFieldValue('NUM');
+	return [`${val}`, Order.ATOMIC];
+}
+
+mpyGen.forBlock['math_degree'] = function(block, generator) {
+	const val = block.getFieldValue('NUM');
+	return [`${val}`, Order.ATOMIC];
+}
+
+mpyGen.forBlock['math_degree_180'] = function(block, generator) {
+	const val = block.getFieldValue('NUM');
+	return [`${val}`, Order.ATOMIC];
+}
+
 mpyGen.forBlock['movement_main_move'] = function(block, generator) {
-	return ``;
+	const speed = generator.valueToCode(block, 'SPEED', Order.ATOMIC);
+	const time = generator.valueToCode(block, 'NUM', Order.ATOMIC);
+
+	return `dcMotor.forward(int(${speed}*100))\ntime.sleep(${time})\ndcMotor.stop()\n`;
 }
 
 mpyGen.forBlock['movement_main_backward'] = function(block, generator) {
-	return ``;
+	const speed = generator.valueToCode(block, 'SPEED', Order.ATOMIC);
+	const time = generator.valueToCode(block, 'NUM', Order.ATOMIC);
+
+	return `dcMotor.backwards(int(${speed}*100))\ntime.sleep(${time})\ndcMotor.stop()\n`;
+}
+
+mpyGen.forBlock['movement_turnon_move'] = function(block, generator) {
+	const speed = generator.valueToCode(block, 'SPEED', Order.ATOMIC);
+	const dir = block.getFieldValue('DIR');
+
+	if (dir == 'BW') { return `dcMotor.backwards(int(${speed}*100))\n`; }
+	else { return `dcMotor.forward(int(${speed}*100))\n`; }
+}
+
+mpyGen.forBlock['movement_stop_move'] = function(block, generator) {
+	return `dcMotor.stop()\n`
 }
 
 mpyGen.forBlock['movement_head_rotate'] = function(block, generator) {
 	const deg = generator.valueToCode(block, 'NUM', Order.ATOMIC);
 
-	return `servoHeadPin.duty(${calculateDuty(deg)})\ntime.sleep(.5)\n`;
+	return `servoHeadPin.duty(${calculateDuty(deg)})\ntime.sleep(${HardwareConstants.HARDWARE_SERVO_BLOCKING_TIME})\n`;
 }
 
 mpyGen.forBlock['movement_front_turnright'] = function(block, generator) {
-	return ``;
-}
-
-mpyGen.forBlock['movement_front_turnright'] = function(block, generator) {
-	return ``;
+	return `servoFrontPin.duty(${calculateDuty(180)})\ntime.sleep(${HardwareConstants.HARDWARE_SERVO_BLOCKING_TIME})\n`;
 }
 
 mpyGen.forBlock['movement_front_turnleft'] = function(block, generator) {
-	return ``;
+	return `servoFrontPin.duty(${calculateDuty(0)})\ntime.sleep(${HardwareConstants.HARDWARE_SERVO_BLOCKING_TIME})\n`;
+}
+
+mpyGen.forBlock['movement_front_turnfront'] = function(block, generator) {
+	return `servoFrontPin.duty(${calculateDuty(90)})\ntime.sleep(${HardwareConstants.HARDWARE_SERVO_BLOCKING_TIME})\n`;
 }
 
 mpyGen.forBlock['movement_front_rotate'] = function(block, generator) {
 	const deg = generator.valueToCode(block, 'NUM', Order.ATOMIC);
 
-	return `servoHeadPin.duty(${calculateDuty(deg)})\ntime.sleep(${HardwareConstants.HARDWARE_SERVO_BLOCKING_TIME})\n`;
+	return `servoFrontPin.duty(${calculateDuty(deg)})\ntime.sleep(${HardwareConstants.HARDWARE_SERVO_BLOCKING_TIME})\n`;
 }
 
 function hexToRGB(hexstr) {

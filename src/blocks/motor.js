@@ -5,6 +5,9 @@
  */
 
 import * as Blockly from 'blockly/core';
+import {registerFieldAngle} from '@blockly/field-angle';
+
+registerFieldAngle();
 
 // Create a custom block called 'add_text' that adds
 // text to the output div on the sample app.
@@ -12,11 +15,19 @@ import * as Blockly from 'blockly/core';
 // own custom blocks.
 const moveForw = {
 	type: 'movement_main_move',
-	message0: 'move forward %1',
+	message0: 'move forward for %1 seconds',
 	args0: [
 		{
 			type: 'input_value',
 			name: 'NUM',
+			check: 'Number',
+		},
+	],
+	message1: 'with %1 speed',
+	args1: [
+		{
+			type: 'input_value',
+			name: 'SPEED',
 			check: 'Number',
 		},
 	],
@@ -28,11 +39,19 @@ const moveForw = {
 };
 const moveBack = {
 	type: 'movement_main_backward',
-	message0: 'move backward %1',
+	message0: 'move backward for %1 seconds',
 	args0: [
 		{
 			type: 'input_value',
 			name: 'NUM',
+			check: 'Number',
+		},
+	],
+	message1: 'with %1 speed',
+	args1: [
+		{
+			type: 'input_value',
+			name: 'SPEED',
 			check: 'Number',
 		},
 	],
@@ -49,7 +68,7 @@ const headRotate = {
 		{
 			type: 'input_value',
 			name: 'NUM',
-			check: 'Number',
+			check: 'Number_Deg180',
 		},
 	],
 	previousStatement: null,
@@ -76,13 +95,49 @@ const turnLeft = {
 	tooltip: '',
 	helpUrl: '',
 };
+const turnForw = {
+	type: 'movement_front_turnfront',
+	message0: 'turn front wheel facing forwards',
+	previousStatement: null,
+	nextStatement: null,
+	colour: 4,
+	tooltip: '',
+	helpUrl: '',
+};
 const turn = {
 	type: 'movement_front_rotate',
-	message0: 'turn front wheel %1 degrees',
+	message0: 'turn front wheel %1',
 	args0: [
 		{
 			type: 'input_value',
 			name: 'NUM',
+			check: 'Number_Deg180',
+		},
+	],
+	previousStatement: null,
+	nextStatement: null,
+	colour: 4,
+	tooltip: '',
+	helpUrl: '',
+};
+const turnOnMotor = {
+	type: 'movement_turnon_move',
+	message0: 'turn on motor %1',
+	args0: [
+		{
+			type: 'field_dropdown',
+			name: 'DIR',
+			options: [
+				['forwards', 'FW'],
+				['backwards', 'BW'],
+			],
+		}
+	],
+	message1: 'with %1 speed',
+	args1: [
+		{
+			type: 'input_value',
+			name: 'SPEED',
 			check: 'Number',
 		},
 	],
@@ -92,10 +147,20 @@ const turn = {
 	tooltip: '',
 	helpUrl: '',
 };
+const turnOffMotor = {
+	type: 'movement_stop_move',
+	message0: 'turn off motor',
+	previousStatement: null,
+	nextStatement: null,
+	colour: 4,
+	tooltip: '',
+	helpUrl: '',
+};
+
 
 // Create the block definitions for the JSON-only blocks.
 // This does not register their definitions with Blockly.
 // This file has no side effects!
 export const blocks = Blockly.common.createBlockDefinitionsFromJsonArray([
-	moveForw, moveBack, headRotate, turnRight, turnLeft, turn
+	moveForw, moveBack, turnOnMotor, turnOffMotor, headRotate, turnRight, turnLeft, turn, turnForw
 ]);

@@ -7,6 +7,16 @@ export const PINOUT_ON_BOARD_LED = 2
 export const PINOUT_HEAD_SERVO = 0
 // The GPIO pin (output, PWM) for the front wheel servo.
 export const PINOUT_FRONT_SERVO = 4
+// The GPIO pin (output) for the motor driver's Input pin 1
+// that controls the direction of the wheel. Backwards if HIGH.
+export const PINOUT_DCMOTOR_PIN1 = 17
+// The GPIO pin (output) for the motor driver's Input pin 2
+// that controls the direction of the wheel. Forwards if HIGH.
+export const PINOUT_DCMOTOR_PIN2 = 18
+// The GPIO pin (output, PWM) for the DC motor driver enabler.
+// This pin is for speed control, and enabling or 
+// disabling of the motor itself.
+export const PINOUT_DCMOTOR_ENABLE = 19
 
 //// --- inputs --- ////
 // The GPIO pin (input) for the temperature and humidity sensor.
