@@ -1,6 +1,7 @@
 body {
 	margin: 0;
 	max-width: 100vw;
+	height: 100vh;
 }
 
 pre,
@@ -44,7 +45,7 @@ code {
 }
 
 .button {
-	height: 50px;
+	height: 34px;
 	border-radius: 100px;
 	border: 0;
 	background-color: #0fbd8c;
@@ -68,6 +69,7 @@ code {
 	background-color: white;
 	color: black;
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+	padding-left: 12px;
 }
 
 .blocklySvg {
@@ -136,11 +138,30 @@ code {
 
 #saveLoadDiv {
 	display: flex;
-	gap: 12px;
-	margin-bottom: 12px;
+	gap: 6px;
+	margin-bottom: 6px;
 }
 
 #saveLoadDiv > button {
 	background-color: #4c97ff;
 	flex-grow: 1;
+}
+
+#deployDiv {
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+	max-width: 512px;
+	height: fit-content;
+	z-index: 999;
+	display: flex;
+	flex-direction: column;
+	padding: 12px;
+	background-color: white;
+	border-top-right-radius: 29px;
+	border-top-left-radius: 29px;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
+	margin-inline: 12px;
 }

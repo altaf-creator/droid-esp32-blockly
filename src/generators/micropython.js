@@ -4,6 +4,7 @@ import * as HardwareConstants from '../r32d32_constants.js'
 
 export const mpyGen = new Blockly.Generator("MicroPython");
 
+// reserve pin variables
 pythonGenerator.addReservedWords('npxl')
 pythonGenerator.addReservedWords('dhtPin')
 pythonGenerator.addReservedWords('builtInLEDPin')
@@ -12,6 +13,15 @@ pythonGenerator.addReservedWords('btnB')
 pythonGenerator.addReservedWords('lightSensorPin')
 pythonGenerator.addReservedWords('servoHeadPin')
 pythonGenerator.addReservedWords('servoFrontPin')
+pythonGenerator.addReservedWords('dcMotor')
+// reserve libraries
+pythonGenerator.addReservedWords('machine')
+pythonGenerator.addReservedWords('time')
+pythonGenerator.addReservedWords('esp32')
+pythonGenerator.addReservedWords('network')
+pythonGenerator.addReservedWords('dht')
+pythonGenerator.addReservedWords('neopixel')
+pythonGenerator.addReservedWords('dcmotor')
 Object.assign(mpyGen, pythonGenerator);
 
 mpyGen.init = function(workspace) {
@@ -96,7 +106,7 @@ mpyGen.forBlock['controls_forever'] = function(block, generator) {
 }
 
 mpyGen.forBlock['controls_main'] = function(block, generator) {
-	return ``;
+	return `# start of program (yes the main program block is absolutely useless)`;
 }
 
 mpyGen.forBlock['lights_board_light'] = function(block, generator) {

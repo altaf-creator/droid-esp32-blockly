@@ -39,7 +39,7 @@ const sleep = {
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: 45,
+	style: 'loop_blocks',
 	tooltip: '',
 	helpUrl: '',
 };

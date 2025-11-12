@@ -229,7 +229,7 @@ export const toolbox = {
 		},
 		{
 			kind: 'category',
-			name: 'Code',
+			name: 'Debugging',
 			categorystyle: 'python_category',
 			contents: [
 				{
@@ -246,20 +246,6 @@ export const toolbox = {
 						},
 					},
 				},
-				{
-					kind: 'block',
-					type: 'python_sleep',
-					inputs: {
-						NUM: {
-							shadow: {
-								type: 'math_number',
-								fields: {
-									NUM: 0,
-								},
-							},
-						},
-					},
-				}
 			],
 		},
 		{
@@ -362,6 +348,20 @@ export const toolbox = {
 					kind: 'block',
 					type: 'controls_flow_statements',
 				},
+				{
+					kind: 'block',
+					type: 'python_sleep',
+					inputs: {
+						NUM: {
+							shadow: {
+								type: 'math_number',
+								fields: {
+									NUM: 0,
+								},
+							},
+						},
+					},
+				}
 			],
 		},
 		{
