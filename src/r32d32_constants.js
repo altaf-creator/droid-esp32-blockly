@@ -17,14 +17,16 @@ export const PINOUT_DCMOTOR_PIN2 = 18
 // This pin is for speed control, and enabling or 
 // disabling of the motor itself.
 export const PINOUT_DCMOTOR_ENABLE = 19
+// The GPIO pin (input, ANALOG) for the TRIGGER PIN of the ultrasonic sensor.
+export const PINOUT_ULTRASONIC_TRIG = 25
 
 //// --- inputs --- ////
 // The GPIO pin (input) for the temperature and humidity sensor.
 export const PININ_DHT = 35
-// The GPIO pin (input, ANALOG) for the light sensor.
+// The GPIO pin (input, ANALOG) for the photoresistive light sensor.
 export const PININ_PHOTORESISTOR = 34
-// The GPIO pin (input, ANALOG) for the ultrasonic sensor.
-export const PININ_ULTRASONIC = 25
+// The GPIO pin (input, ANALOG) for the ECHO PIN of the ultrasonic sensor.
+export const PININ_ULTRASONIC_ECHO = 26
 // The GPIO pin (input) for the A Button.
 export const PININ_BTN_A = 32
 // The GPIO pin (input) for the B Button.

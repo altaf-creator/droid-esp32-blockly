@@ -37,6 +37,7 @@ mpyGen.init = function(workspace) {
 		'import dht', 
 		'import neopixel', 
 		'import dcmotor', 
+		'from hcsr04 import HCSR04',
 		'', 
 		`npxl = neopixel.NeoPixel(machine.Pin(${HardwareConstants.PINOUT_LIGHTS}, machine.Pin.OUT), 25)`,
 		`dhtPin = dht.DHT11(machine.Pin(${HardwareConstants.PININ_DHT}, machine.Pin.IN))`,
@@ -51,7 +52,8 @@ mpyGen.init = function(workspace) {
 		`dcMotor = dcmotor.DCMotor(\
 machine.Pin(${HardwareConstants.PINOUT_DCMOTOR_PIN1}, machine.Pin.OUT), \
 machine.Pin(${HardwareConstants.PINOUT_DCMOTOR_PIN2}, machine.Pin.OUT), \
-machine.PWM(machine.Pin(${HardwareConstants.PINOUT_DCMOTOR_ENABLE})))`
+machine.PWM(machine.Pin(${HardwareConstants.PINOUT_DCMOTOR_ENABLE})))`,
+		`ultrasonicSensor = HCSR04(trigger_pin=${HardwareConstants.PINOUT_ULTRASONIC_TRIG}, echo_pin=${HardwareConstants.PININ_ULTRASONIC_ECHO}, echo_timeout_us=10000)`,
 	]);
 }
 
@@ -152,12 +154,16 @@ mpyGen.forBlock['sensors_light'] = function(block, generator) {
 	return [`(4095 - lightSensorPin.read())`, Order.ATOMIC];
 }
 
+mpyGen.forBlock['sensors_ultrasonic'] = function(block, generator) {
+	return [`ultrasonicSensor.distance_cm()`, Order.ATOMIC];
+}
+
 mpyGen.forBlock['sensors_buttonA'] = function(block, generator) {
-	return [`btnA.value() == 1`, Order.ATOMIC];
+	return [`btnA.value() == 0`, Order.ATOMIC];
 }
 
 mpyGen.forBlock['sensors_buttonB'] = function(block, generator) {
-	return [`btnB.value() == 1`, Order.ATOMIC];
+	return [`btnB.value() == 0`, Order.ATOMIC];
 }
 
 mpyGen.forBlock['math_range_100'] = function(block, generator) {

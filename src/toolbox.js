@@ -212,6 +212,10 @@ export const toolbox = {
 				},
 				{
 					kind: 'block',
+					type: 'sensors_ultrasonic',
+				},
+				{
+					kind: 'block',
 					type: 'sensors_buttonA',
 				},
 				{

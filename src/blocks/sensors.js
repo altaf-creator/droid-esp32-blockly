@@ -44,6 +44,14 @@ const light = {
 	helpUrl: '',
 	output: 'Number',
 };
+const ultrasonic = {
+	type: 'sensors_ultrasonic',
+	message0: 'read ultrasonic distance in cm',
+	colour: 190,
+	tooltip: '',
+	helpUrl: '',
+	output: 'Number',
+};
 const btnA = {
 	type: 'sensors_buttonA',
 	message0: 'is Button A pressed',
@@ -83,5 +91,5 @@ const input = {
 // This does not register their definitions with Blockly.
 // This file has no side effects!
 export const blocks = Blockly.common.createBlockDefinitionsFromJsonArray([
-	startMeasureTH, temp, humd, light, btnA, btnB, input
+	startMeasureTH, temp, humd, light, btnA, btnB, input, ultrasonic
 ]);
