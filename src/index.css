@@ -62,13 +62,19 @@ code {
 }
 
 .blocklyToolbox {
-	border-top-right-radius: 12px !important;
-	border-bottom-right-radius: 12px !important;
+	border-top-right-radius: 24px !important;
+	border-bottom-right-radius: 24px !important;
 	box-sizing: border-box;
 	background-color: white;
 	color: black;
 	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.25);
 	padding-left: 12px;
+	padding-top: 6px;
+	direction: rtl;
+}
+
+.blocklyToolbox > * {
+	direction: ltr;
 }
 
 .blocklySvg {
@@ -129,10 +135,6 @@ code {
 	border: 2px solid #e96725;
 	font-weight: bold;
 	transition: ease .2s transform;
-}
-
-.blocklyBlock {
-	padding:100px;
 }
 
 #saveLoadDiv {
@@ -229,4 +231,21 @@ code {
 	margin-top: auto;
 	margin-bottom: auto;
 	font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+	#blocklyDiv {
+		height: calc(100% - 98px);
+	}
+
+	#deployDiv {
+		width: 100%;
+		max-width: 100%;
+		margin: 0;
+		border-radius: 0 !important;
+	}
+
+	.blocklyToolbox {
+		border-bottom-right-radius: 0 !important;
+	}
 }
