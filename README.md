@@ -1,4 +1,4 @@
-# R32D32 blockly
+# R32-D32 droid blockly code editor
 
 ![example.png](example.png)
 
