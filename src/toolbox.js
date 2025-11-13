@@ -574,6 +574,20 @@ export const toolbox = {
 				},
 				{
 					kind: 'block',
+					type: 'math_toint',
+					inputs: {
+						NUM: {
+							shadow: {
+								type: 'math_number',
+								fields: {
+									NUM: 1.00001,
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'block',
 					type: 'math_degree',
 				},
 				{
@@ -864,6 +878,74 @@ export const toolbox = {
 				{
 					kind: 'block',
 					type: 'lists_reverse',
+				},
+			],
+		},
+		{
+			kind: 'category',
+			name: 'Time',
+			categorystyle: 'time_category',
+			contents: [
+				{
+					kind: 'block',
+					type: 'time_get',
+				},
+				{
+					kind: 'block',
+					type: 'time_seconds',
+					inputs: {
+							NUM: {
+								shadow: {
+									type: 'math_number',
+									fields: {
+										NUM: 1,
+									},
+								},
+							},
+						},
+				},
+				{
+					kind: 'block',
+					type: 'time_minutes',
+					inputs: {
+						NUM: {
+							shadow: {
+								type: 'math_number',
+								fields: {
+									NUM: 1,
+								},
+							},
+						},
+					}
+				},
+				{
+					kind: 'block',
+					type: 'time_hours',
+					
+					inputs: {
+						NUM: {
+							shadow: {
+								type: 'math_number',
+								fields: {
+								NUM: 1,
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'block',
+					type: 'time_days',
+					inputs: {
+						NUM: {
+							shadow: {
+								type: 'math_number',
+								fields: {
+									NUM: 1,
+								},
+							},
+						},
+					}
 				},
 			],
 		},

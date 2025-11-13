@@ -109,6 +109,20 @@ const degInput180 = {
 	],
 	style: 'math_blocks'
 }
+const toInt = {
+	type: 'math_toint',
+	message0: 'cast to integer %1',
+	output: 'Number',
+	tooltip: '',
+	helpUrl: '',
+	args0 : [
+		{
+			type: 'input_value',
+			name: 'NUM',
+		}
+	],
+	style: 'math_blocks'
+}
 const rangeInput100 = {
 	type: 'math_range_100',
 	message0: '%1 %',
@@ -128,8 +142,69 @@ const rangeInput100 = {
 	style: 'math_blocks'
 }
 
+// time
+const timeGet = {
+	type: 'time_get',
+	message0: 'get current time',
+	tooltip: 'unix epoch time with a precision to 1 second',
+	output: 'Number',
+	style: 'time_blocks'
+}
+const timeS = {
+	type: 'time_seconds',
+	message0: '%1 second(s)',
+	tooltip: 'input block of seconds equivalent to seconds',
+	output: 'Number',
+	args0: [
+		{
+			type: 'input_value',
+			name: 'NUM',
+		},
+	],
+	style: 'time_blocks'
+}
+const timeM = {
+	type: 'time_minutes',
+	message0: '%1 minute(s)',
+	tooltip: 'input block of minutes equivalent to seconds',
+	output: 'Number',
+	args0: [
+		{
+			type: 'input_value',
+			name: 'NUM',
+		},
+	],
+	style: 'time_blocks'
+}
+const timeH = {
+	type: 'time_hours',
+	message0: '%1 hour(s)',
+	tooltip: 'input block of hours equivalent to seconds',
+	output: 'Number',
+	args0: [
+		{
+			type: 'input_value',
+			name: 'NUM',
+		},
+	],
+	style: 'time_blocks'
+}
+const timeD = {
+	type: 'time_days',
+	message0: '%1 day(s)',
+	tooltip: 'input block of days equivalent to seconds',
+	output: 'Number',
+	args0: [
+		{
+			type: 'input_value',
+			name: 'NUM',
+		},
+	],
+	style: 'time_blocks'
+}
+
 export const blocks = Blockly.common.createBlockDefinitionsFromJsonArray([
-	sleep, print, forever, mainStart, degInput, rangeInput100, degInput180
+	sleep, print, forever, mainStart, degInput, rangeInput100, degInput180, timeGet, timeS, timeM, timeH, timeD, toInt
 ]);
 
 Blockly.Extensions.register('main_program', function () {

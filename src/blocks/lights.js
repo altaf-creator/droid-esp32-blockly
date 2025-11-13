@@ -25,7 +25,7 @@ const lightsOnBoard = {
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: 90,
+	colour: 120,
 	tooltip: '',
 	helpUrl: '',
 };
@@ -46,7 +46,7 @@ const setLight = {
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: 90,
+	colour: 120,
 	tooltip: '',
 	helpUrl: '',
 };
@@ -69,7 +69,7 @@ const setLightCol = {
 	],
 	previousStatement: null,
 	nextStatement: null,
-	colour: 90,
+	colour: 120,
 	tooltip: '',
 	helpUrl: '',
 };
@@ -82,7 +82,7 @@ const colour = {
 			name: 'COLOUR',
 		}
 	],
-	colour: 90,
+	colour: 120,
 	tooltip: '',
 	helpUrl: '',
 	output: 'Colour',

@@ -15,6 +15,7 @@ import {toolbox} from './toolbox';
 import './index.css';
 
 import { mpyGen } from './generators/micropython';
+import { initialiseExampleProjects } from './examples';
 
 // Register the blocks and generator with Blockly
 Blockly.common.defineBlocks(PythonBlocks.blocks);
@@ -44,6 +45,9 @@ const ws = Blockly.inject(blocklyDiv, {
 		pinch: true
 	},
 });
+
+// initialise example projects
+initialiseExampleProjects();
 
 let currentCode = "";
 
@@ -125,6 +129,19 @@ document.getElementById("saveProj").addEventListener("click", function () {
 
 document.getElementById("loadProj").addEventListener("click", () => document.getElementById("fileInput").click());
 
+const exampleProjPanel = document.getElementById("exampleProj");
+exampleProjPanel.addEventListener("click", function () {
+	const div = document.getElementById('exampleProjDiv');
+	
+	if (div.style.bottom == '-100px') {
+		div.style.bottom = '69px';
+		exampleProjPanel.innerText = "Close Examples";
+	} else {
+		div.style.bottom = '-100px';
+		exampleProjPanel.innerText = "Load Examples";
+	}
+});
+
 document.getElementById("fileInput").addEventListener("change", async (e) => {
 	const file = e.target.files[0];
 	if (!file) return;
@@ -132,7 +149,7 @@ document.getElementById("fileInput").addEventListener("change", async (e) => {
 	const text = await file.text();
 	try {
 		const state = JSON.parse(text);
-		Blockly.serialization.workspaces.load(state, ws);	
+		Blockly.serialization.workspaces.load(state, ws);
 		createAlert("Successfully opened your project!")
 	} catch (err) {
 		console.error("Invalid JSON:", err);

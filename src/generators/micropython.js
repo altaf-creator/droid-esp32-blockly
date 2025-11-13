@@ -186,6 +186,11 @@ mpyGen.forBlock['math_degree_180'] = function(block, generator) {
 	return [`${val}`, Order.ATOMIC];
 }
 
+mpyGen.forBlock['math_toint'] = function(block, generator) {
+	const val = generator.valueToCode(block, 'NUM', Order.ATOMIC);
+	return [`int(${val})`, Order.ATOMIC];
+}
+
 mpyGen.forBlock['movement_main_move'] = function(block, generator) {
 	const speed = generator.valueToCode(block, 'SPEED', Order.ATOMIC);
 	const time = generator.valueToCode(block, 'NUM', Order.ATOMIC);
@@ -234,6 +239,30 @@ mpyGen.forBlock['movement_front_rotate'] = function(block, generator) {
 	const deg = generator.valueToCode(block, 'NUM', Order.ATOMIC);
 
 	return `servoFrontPin.duty(${calculateDuty(deg)})\ntime.sleep(${HardwareConstants.HARDWARE_SERVO_BLOCKING_TIME})\n`;
+}
+
+mpyGen.forBlock['time_get'] = function(block, generator) {
+	return [`time.time()`, Order.ATOMIC];
+}
+
+mpyGen.forBlock['time_seconds'] = function(block, generator) {
+	const num = generator.valueToCode(block, 'NUM', Order.ATOMIC);
+	return [`(${num})`, Order.ATOMIC];
+}
+
+mpyGen.forBlock['time_minutes'] = function(block, generator) {
+	const num = generator.valueToCode(block, 'NUM', Order.ATOMIC);
+	return [`(${num} * (60))`, Order.ATOMIC];
+}
+
+mpyGen.forBlock['time_hours'] = function(block, generator) {
+	const num = generator.valueToCode(block, 'NUM', Order.ATOMIC);
+	return [`(${num} * (60*60))`, Order.ATOMIC];
+}
+
+mpyGen.forBlock['time_days'] = function(block, generator) {
+	const num = generator.valueToCode(block, 'NUM', Order.ATOMIC);
+	return [`(${num} * (60*60*24))`, Order.ATOMIC];
 }
 
 function hexToRGB(hexstr) {
