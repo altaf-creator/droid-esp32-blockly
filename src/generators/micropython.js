@@ -1,6 +1,6 @@
 import { pythonGenerator, Order } from 'blockly/python';
 import * as Blockly from 'blockly/core';
-import * as HardwareConstants from '../r32d32_constants.js'
+import * as HardwareConstants from '../hardwareConstants.js'
 
 export const mpyGen = new Blockly.Generator("MicroPython");
 
