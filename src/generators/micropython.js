@@ -22,6 +22,7 @@ pythonGenerator.addReservedWords('network')
 pythonGenerator.addReservedWords('dht')
 pythonGenerator.addReservedWords('neopixel')
 pythonGenerator.addReservedWords('dcmotor')
+pythonGenerator.addReservedWords('HCSR04')
 Object.assign(mpyGen, pythonGenerator);
 
 mpyGen.init = function(workspace) {
